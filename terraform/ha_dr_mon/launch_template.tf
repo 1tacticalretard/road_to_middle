@@ -1,6 +1,6 @@
 resource "aws_launch_template" "launch_template" {
   depends_on    = [module.aws-networking]
-  name          = "${var.common_name}-launch_template"
+  name_prefix          = "${var.common_name}-autoscaling_group_"
   image_id      = "ami-0557a15b87f6559cf"
   instance_type = "t2.micro"
   key_name      = var.aws_key_name
@@ -8,7 +8,7 @@ resource "aws_launch_template" "launch_template" {
     subnet_id       = module.aws-networking.public_subnet_ids[0]
     security_groups = [module.aws-networking.security_group_id]
   }
-  user_data = "${base64encode(data.template_file.user_data.rendered)}"
+  user_data = base64encode(data.template_file.user_data.rendered)
 }
 
 data "template_file" "user_data" {

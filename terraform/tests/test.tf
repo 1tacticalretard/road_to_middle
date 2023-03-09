@@ -12,11 +12,26 @@ module "aws-networking" {
   private_subnet_cidr_list = ["192.168.2.0/24", "192.168.4.0/24"]
 }
 
+data "aws_subnets" "public" {
+  filter {
+    name = "vpc-id"
+    values = [module.aws-networking.vpc_id]
+  }
+  filter {
+    name = "tag:Tier"
+    values = ["Public"]
+  }
+}
+
+resource "random_shuffle" "public_subnets" {
+  input = data.aws_subnets.public.ids
+}
+
 resource "aws_instance" "test-instance-1" {
   depends_on             = [module.aws-networking]
   ami                    = "ami-0557a15b87f6559cf"
   instance_type          = "t2.micro"
-  subnet_id              = module.aws-networking.public_subnet_ids[0]
+  subnet_id              = random_shuffle.public_subnets.result[0]
   vpc_security_group_ids = [module.aws-networking.security_group_id]
   user_data              = <<-EOF
     #!/bin/bash
