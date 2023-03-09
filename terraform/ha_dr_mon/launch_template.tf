@@ -1,12 +1,15 @@
 resource "aws_launch_template" "launch_template" {
   depends_on    = [module.aws-networking]
-  name_prefix          = "${var.common_name}-autoscaling_group_"
+  name_prefix   = "${var.common_name}-autoscaling_group_"
   image_id      = "ami-0557a15b87f6559cf"
   instance_type = "t2.micro"
   key_name      = var.aws_key_name
   network_interfaces {
     subnet_id       = module.aws-networking.public_subnet_ids[0]
     security_groups = [module.aws-networking.security_group_id]
+  }
+  monitoring {
+    enabled = true
   }
   user_data = base64encode(data.template_file.user_data.rendered)
 }
