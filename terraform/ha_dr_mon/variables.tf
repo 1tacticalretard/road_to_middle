@@ -9,5 +9,5 @@ variable "aws_region" {
 }
 
 variable "common_name" {
-    default = "ha_dr_mon"
+    default = "hadr"
 }

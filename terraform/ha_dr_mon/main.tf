@@ -6,7 +6,7 @@ provider "aws" {
 
 module "aws-networking" {
   source                   = "../modules/roadtomiddle_aws_networking"
-  common_name              = "test"
+  common_name              = "${var.common_name}"
   vpc_cidr                 = "192.168.0.0/16"
   public_subnet_cidr_list  = ["192.168.1.0/24", "192.168.3.0/24"]
   private_subnet_cidr_list = ["192.168.2.0/24", "192.168.4.0/24"]

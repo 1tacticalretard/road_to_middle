@@ -1,6 +1,3 @@
-data "aws_availability_zones" "available" {
-  state = "available"
-}
 resource "aws_autoscaling_group" "autoscaling_group" {
   vpc_zone_identifier = module.aws-networking.public_subnet_ids
   min_size            = 2
@@ -10,4 +7,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     id      = aws_launch_template.launch_template.id
     version = "$Latest"
   }
+  load_balancers = [aws_elb.load_balancer.id]
+  health_check_grace_period = 10
+  health_check_type = "ELB"
 }
