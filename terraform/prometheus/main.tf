@@ -12,7 +12,7 @@ module "aws-networking" {
   private_subnet_cidr_list = ["192.168.2.0/24"]
 }
 
-resource "aws_instance" "test-instance-1" {
+resource "aws_instance" "prometheus_instance" {
   depends_on             = [module.aws-networking]
   ami                    = "ami-0557a15b87f6559cf"
   instance_type          = "t2.micro"
