@@ -92,7 +92,7 @@ resource "aws_route_table_association" "route_table_association_private" {
 
 resource "aws_security_group" "security_group" {
   name        = "${var.common_name}-security_group"
-  description = "A security group which allows 80, 443, 22 ports ingress and any port egress."
+  description = "A security group which allows 80, 443, 22, 9090 ports ingress and any port egress."
   vpc_id      = aws_vpc.vpc.id
   ingress {
     from_port   = 80
@@ -109,6 +109,12 @@ resource "aws_security_group" "security_group" {
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 9090
+    to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
