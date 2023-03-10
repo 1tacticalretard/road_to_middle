@@ -10,15 +10,16 @@ module "aws-networking" {
   vpc_cidr                 = "192.168.0.0/16"
   public_subnet_cidr_list  = ["192.168.1.0/24", "192.168.3.0/24"]
   private_subnet_cidr_list = ["192.168.2.0/24", "192.168.4.0/24"]
+  security_group_ports     = ["80", "22"]
 }
 
 data "aws_subnets" "public" {
   filter {
-    name = "vpc-id"
+    name   = "vpc-id"
     values = [module.aws-networking.vpc_id]
   }
   filter {
-    name = "tag:Tier"
+    name   = "tag:Tier"
     values = ["Public"]
   }
 }

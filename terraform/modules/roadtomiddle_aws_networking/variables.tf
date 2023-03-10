@@ -19,3 +19,7 @@ variable "private_subnet_cidr_list" {
     "10.0.20.0/24"
   ]
 }
+variable "security_group_ports" {
+  type    = list(number)
+  default = [80, 443, 22]
+}
