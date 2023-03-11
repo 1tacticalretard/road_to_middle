@@ -20,6 +20,7 @@ module "aws-networking" {
   private_subnet_cidr_list = ["192.168.2.0/24"]
   security_group_ports     = ["9090", "22"]
 }
+# Additional resources following (if needed)
  ```
  
  In case no values provided to the module, the default ones will be taken from [variables.tf file](https://github.com/1tacticalretard/road_to_middle/blob/master/terraform/modules/roadtomiddle_aws_networking/variables.tf) of the module.
@@ -34,4 +35,12 @@ Here you may see the [list of outputs](https://github.com/1tacticalretard/road_t
 Example of usage:
 ```
 subnet_id              = module.aws-networking.public_subnet_ids[0]
+```
+
+Once a manifest is ready, do:
+
+```
+terraform init
+terraform plan
+terraform apply
 ```
