@@ -8,5 +8,5 @@ What do we have here is (surprise surprise) my work on Terraform manifests, modu
 
 * [modules](https://github.com/1tacticalretard/road_to_middle/tree/master/terraform/modules/) - the folder for modules. Currently consists of:
     * [roadtomiddle_aws_networking](https://github.com/1tacticalretard/road_to_middle/tree/master/terraform/modules/roadtomiddle_aws_networking) - a highly customizable, self-written module for creating a simple, yet reliable network configuration for my infrastructure.
-* [ha_dr_monitoring](https://github.com/1tacticalretard/road_to_middle/tree/master/terraform/modules/roadtomiddle_aws_networking) - **H**igh Availability, **D**isaster **R**ecovery installation template that comes with CloudWatch **mon**itoring & Classic Load Balancer from box.
+* [ha_dr_monitoring](https://github.com/1tacticalretard/road_to_middle/tree/master/terraform/modules/roadtomiddle_aws_networking) - **H**igh **A**vailability, **D**isaster **R**ecovery installation template that comes with CloudWatch **mon**itoring & Classic Load Balancer from box.
 * [prometheus](https://github.com/1tacticalretard/road_to_middle/tree/master/terraform/prometheus) - the installation template for Prometheus.
