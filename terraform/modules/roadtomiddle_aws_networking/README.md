@@ -13,7 +13,7 @@ Let's say, we need a network configuration with 1 public subnet, 1 private subne
 
  ```
 module "aws-networking" {
-  source                   = "../modules/roadtomiddle_aws_networking" # actual in case your manifests is located at /road_to_middle/terraform/<folder_of_your_choice>/<name_of_the_manifest.tf>, otherwise change accordingly
+  source                   = "../modules/roadtomiddle_aws_networking" # actual in case your manifest is located at /road_to_middle/terraform/<folder_of_your_choice>/<name_of_the_manifest.tf>, otherwise change accordingly
   common_name              = var.common_name
   vpc_cidr                 = "192.168.0.0/16"
   public_subnet_cidr_list  = ["192.168.1.0/24"]
