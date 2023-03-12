@@ -4,31 +4,6 @@ metadata:
   name: nginx-deploy
   labels:
     app : nginx
-    ver : v1
-    owner: 1tacticalretard
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      project: roadtomiddle
-  template:
-    metadata:
-      labels:
-        project: roadtomiddle
-    spec:
-      containers:
-      - name: container-nginx-custompage
-        image: 1tacticalretard/nginx_custompage:latest
-        ports:
-        - containerPort: 80
-          
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deploy
-  labels:
-    app : nginx
     type: deploy
     ver : v1
     owner: 1tacticalretard
