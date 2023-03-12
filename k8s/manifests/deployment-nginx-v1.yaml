@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app : nginx
+    ver : v1
+    owner: 1tacticalretard
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      project: roadtomiddle
+  template:
+    metadata:
+      labels:
+        project: roadtomiddle
+    spec:
+      containers:
+      - name: container-nginx-custompage
+        image: 1tacticalretard/nginx_custompage:latest
+        ports:
+        - containerPort: 80
+          
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app : nginx
+    type: deploy
+    ver : v1
+    owner: 1tacticalretard
+    project: roadtomiddle
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      project: roadtomiddle
+  template:
+    metadata:
+      labels:
+        project: roadtomiddle
+    spec:
+      containers:
+      - name: container-nginx-custompage
+        image: 1tacticalretard/nginx_custompage:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: NodePort
+  selector:
+    project: roadtomiddle
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      nodePort: 30007
