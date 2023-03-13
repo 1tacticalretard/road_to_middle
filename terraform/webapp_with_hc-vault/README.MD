@@ -12,6 +12,7 @@ A simple todo-app with Hashicorp Vault integration
 
     * Once HC Vault is enabled, run this command having the copied MongoDB URI pasted instead of the template one:
 
+
     ```
     vault kv put secret/todo-app link=""mongodb+srv://<USER>:<PASS>@cluster0.******.mongodb.net/todo-app""
     ```
