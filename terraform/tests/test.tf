@@ -30,6 +30,7 @@ resource "random_shuffle" "public_subnets" {
 
 resource "aws_instance" "test-instance-1" {
   depends_on             = [module.aws-networking]
+  monitoring = true
   ami                    = "ami-0557a15b87f6559cf"
   instance_type          = "t2.micro"
   subnet_id              = random_shuffle.public_subnets.result[0]
