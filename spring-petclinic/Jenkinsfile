@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    
+    environment { 
+        PUSH_IMAGE_NAME = "1tacticalretard/roadtomiddle_spring-petclinic:v${BUILD_ID}"
+        TOKEN = credentials('tg_token')
+        CHAT_ID = credentials('tg_chatid')
+    }
+
+    stages {
+        stage('GIT') {
+            steps {
+                script {
+                    git([url: 'https://github.com/1tacticalretard/road_to_middle.git', branch: 'master'])
+                }
+            }
+        }
+        stage ('(RE-)BUILD') {
+            steps {
+                withMaven {
+                    dir('spring-petclinic') {
+                        sh "mvn clean install"
+                    }
+                }
+            }
+    
+        }
+
+        stage ('CONTAINERISE') {
+            steps {
+                script {
+                    dir('spring-petclinic') {
+                        docker_image = docker.build("${PUSH_IMAGE_NAME}")
+                    }   
+                }
+            } 
+        }
+        stage ('REGISTRY') {
+            steps {
+                script {
+                    docker.withRegistry('', 'dockerhub_credentials') {
+                        docker_image.push()
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            sh  ("""
+                curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='%F0%9F%91%8D Jenkins build #${BUILD_ID} summary:\n\nStart time: *${BUILD_TIMESTAMP}*\nJob name: *${env.JOB_NAME}* \nBuild result: *${currentBuild.currentResult}*'
+                """)
+            }
+        failure {
+            sh  ("""
+                curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='%F0%9F%91%8E Jenkins build #${BUILD_ID} summary:\n\nStart time: *${BUILD_TIMESTAMP}*\nJob name: *${env.JOB_NAME}* \nBuild result: *${currentBuild.currentResult}*'
+            """)
+        }
+        aborted {
+            sh  ("""
+                curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text="%E2%9C%8B Jenkins build #${BUILD_ID} summary:\n\nStart time: *${BUILD_TIMESTAMP}*\nJob name: *${env.JOB_NAME}* \nBuild result: *ABORTED BY USER*"
+            """)
+        }
+    }
+}
