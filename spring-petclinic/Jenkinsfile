@@ -1,6 +1,11 @@
 pipeline {
+    
     agent any
     
+    tools { 
+        maven 'Maven_3.6.3' 
+        jdk 'JDK17' 
+    }
     environment { 
         PUSH_IMAGE_NAME = "1tacticalretard/roadtomiddle_spring-petclinic:v${BUILD_ID}"
         TOKEN = credentials('tg_token')
@@ -23,7 +28,17 @@ pipeline {
                     }
                 }
             }
-    
+        }
+        stage('SONARQUBE') {
+            steps {
+                dir('spring-petclinic') {
+                    withSonarQubeEnv(installationName: 'Sonarqube_local') {
+                        withMaven {
+                        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=roadtomiddle_spring-petclinic"
+                        }
+                    }
+                }
+            }
         }
 
         stage ('CONTAINERISE') {
