@@ -20,7 +20,7 @@ jobs:
     
     steps:
     - name: Pre Notify
-      run : curl -s -X POST https://api.telegram.org/bot${{ secrets.TOKEN }}/sendMessage -d chat_id=${{ secrets.CHAT_ID }} -d parse_mode=markdown -d text="*ATTENTION:* Github Actions & Elastic Beanstalk procedure has just been triggered."
+      run : curl -s -X POST https://api.telegram.org/bot${{ secrets.TOKEN }}/sendMessage -d chat_id=${{ secrets.CHAT_ID }} -d parse_mode=markdown -d text="*ATTENTION:* Github Actions and Elastic Beanstalk procedure has just been triggered."
     
     - name: Git clone our repo
       uses: actions/checkout@v1
