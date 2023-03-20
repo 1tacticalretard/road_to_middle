@@ -11,6 +11,8 @@ on:
   push:
     branches: 
       - master
+    paths:
+      - spring-petclinic/**
       
 jobs:
   roadtomiddle_CD:
