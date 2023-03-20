@@ -1,11 +1,11 @@
 name: GhA_CD
 env:
 
-  BUCKET_NAME : "roadtomiddle-s3"
-  EB_APPLICATION_NAME       : "spring-petclinic"
-  EB_ENVIRONMENT_NAME       : "Springpetclinic-env"
-  DEPLOY_PACKAGE_NAME       : "Dockerrun.aws.json"
-  AWS_REGION_NAME           : "us-east-1"
+  #BUCKET_NAME : "roadtomiddle-s3"
+  #EB_APPLICATION_NAME       : "spring-petclinic"
+  #EB_ENVIRONMENT_NAME       : "Springpetclinic-env"
+  #DEPLOY_PACKAGE_NAME       : "Dockerrun.aws.json"
+  #AWS_REGION_NAME           : "us-east-1"
   
 on: 
   push:
