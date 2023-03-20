@@ -1,6 +1,6 @@
 name: GhA_CD
-env:
 
+env:
   BUCKET_NAME : "roadtomiddle-s3"
   EB_APPLICATION_NAME       : "spring-petclinic"
   EB_ENVIRONMENT_NAME       : "Springpetclinic-env"
