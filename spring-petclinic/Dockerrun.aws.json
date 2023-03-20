@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-        "Name": "1tacticalretard/roadtomiddle_spring-petclinic:v106"
+        "Name": "1tacticalretard/roadtomiddle_spring-petclinic:latest"
     },
     "Ports": [
         {"ContainerPort": "8080"}
