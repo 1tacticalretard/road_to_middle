@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Pre Notify
+      run : curl -s -X POST https://api.telegram.org/bot${{ secrets.TOKEN }}/sendMessage -d chat_id=${{ secrets.CHAT_ID }} -d parse_mode=markdown -d text="*ATTENTION:* Github Actions & Elastic Beanstalk procedure has just been triggered."
     
     - name: Git clone our repo
       uses: actions/checkout@v1
@@ -44,3 +46,5 @@ jobs:
     - name: Deploy new ElasticBeanstalk Application Version
       run : aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NAME }} --version-label "GIT_SHA_${{ github.sha }}"
     
+    - name: Post Notify
+      run : curl -s -X POST https://api.telegram.org/bot${{ secrets.TOKEN }}/sendMessage -d chat_id=${{ secrets.CHAT_ID }} -d parse_mode=markdown -d text="*Github Actions and Elastic Beanstalk deployment succeeded!*"
