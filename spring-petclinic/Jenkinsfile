@@ -7,7 +7,7 @@ pipeline {
         jdk 'JDK17' 
     }
     environment { 
-        PUSH_IMAGE_NAME = "1tacticalretard/roadtomiddle_spring-petclinic:v${BUILD_ID}"
+        PUSH_IMAGE_NAME = "1tacticalretard/roadtomiddle_spring-petclinic"
         TOKEN = credentials('tg_token')
         CHAT_ID = credentials('tg_chatid')
     }
@@ -30,6 +30,7 @@ pipeline {
             }
         }
         stage('SONARQUBE') {
+            //def mvn = tool 'Sonarqube_local';
             steps {
                 dir('spring-petclinic') {
                     withSonarQubeEnv(installationName: 'Sonarqube_local') {
@@ -45,21 +46,40 @@ pipeline {
             steps {
                 script {
                     dir('spring-petclinic') {
-                        docker_image = docker.build("${PUSH_IMAGE_NAME}")
+                        docker_image = docker.build("${PUSH_IMAGE_NAME}:v${BUILD_ID}")
                     }   
                 }
             } 
+        }
+        stage ('BUILD_ID') {
+            steps {
+                dir('spring-petclinic') {
+                    sh "echo ${BUILD_ID} > Jenkins_buildID"
+                }
+            }
         }
         stage ('REGISTRY') {
             steps {
                 script {
                     docker.withRegistry('', 'dockerhub_credentials') {
-                        docker_image.push()
+                        docker_image.push('latest')
                     }
                 }
             }
         }
+        stage ('GIT_PUSH') {
+            steps {
+              withCredentials([sshUserPrivateKey(credentialsId: 'git', keyFileVariable: 'git')]) {
+                sh("""
+                git add .
+                git commit --quiet -a -m "Jenkins job #${BUILD_ID} was committed"
+                git push git@github.com:1tacticalretard/road_to_middle.git 
+                """)
+                }
+            }
+        }
     }
+        
     post {
         success {
             sh  ("""
