@@ -11,3 +11,11 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   health_check_grace_period = 10
   health_check_type = "ELB"
 }
+
+resource "aws_autoscaling_policy" "bat" {
+  name                   = "${module.aws-networking.common_name}-autoscaling-policy"
+  scaling_adjustment     = 1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 30
+  autoscaling_group_name = aws_autoscaling_group.autoscaling_group.name
+}
