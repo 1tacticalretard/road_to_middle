@@ -12,7 +12,7 @@ on:
     branches: 
       - master
     paths:
-      - spring-petclinic/**
+      - spring-petclinic/Jenkins_buildID
       
 jobs:
   roadtomiddle_CD:
