@@ -91,15 +91,15 @@ resource "aws_route_table_association" "route_table_association_private" {
 }
 
 resource "aws_security_group" "security_group" {
-  name        = "${var.common_name}-security_group"
-  description = "A security group which allows 80, 443, 22, 9090 ports ingress and any port egress."
-  vpc_id      = aws_vpc.vpc.id
+  name   = "${var.common_name}-security_group"
+  vpc_id = aws_vpc.vpc.id
+
   dynamic "ingress" {
     for_each = var.security_group_ports
     content {
       from_port   = ingress.value
       to_port     = ingress.value
-      protocol    = "tcp"
+      protocol    = ingress.value == 1194 ? "udp" : "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
